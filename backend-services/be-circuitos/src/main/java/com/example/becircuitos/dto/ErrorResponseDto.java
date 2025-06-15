@@ -1,0 +1,36 @@
+package com.example.becircuitos.dto;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@JsonInclude(JsonInclude.Include.NON_NULL) // Don't include null fields like details
+public class ErrorResponseDto {
+    private LocalDateTime timestamp;
+    private int status;
+    private String error;
+    private String message;
+    private String path;
+    private List<String> details; // For validation errors
+
+    public ErrorResponseDto(LocalDateTime timestamp, int status, String error, String message, String path) {
+        this.timestamp = timestamp;
+        this.status = status;
+        this.error = error;
+        this.message = message;
+        this.path = path;
+    }
+
+    public ErrorResponseDto(LocalDateTime timestamp, int status, String error, String message, String path, List<String> details) {
+        this(timestamp, status, error, message, path);
+        this.details = details;
+    }
+
+    // Getters
+    public LocalDateTime getTimestamp() { return timestamp; }
+    public int getStatus() { return status; }
+    public String getError() { return error; }
+    public String getMessage() { return message; }
+    public String getPath() { return path; }
+    public List<String> getDetails() { return details; }
+}

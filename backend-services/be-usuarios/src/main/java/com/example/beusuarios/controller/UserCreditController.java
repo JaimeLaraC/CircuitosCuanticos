@@ -1,8 +1,10 @@
 package com.example.beusuarios.controller;
 
 import com.example.beusuarios.dto.CreditOperationRequestDto;
+import com.example.beusuarios.dto.CreditOperationRequestDto;
 import com.example.beusuarios.dto.CreditOperationResponseDto;
 import com.example.beusuarios.dto.UserCreditDto;
+import com.example.beusuarios.exception.InsufficientCreditException;
 import com.example.beusuarios.model.User;
 import com.example.beusuarios.repository.UserRepository;
 import jakarta.validation.Valid;
@@ -53,9 +55,9 @@ public class UserCreditController {
         int amountToDecrement = requestDto.getAmount();
 
         if (user.getCredit() < amountToDecrement) {
-            // Or handle as per specific business rule, e.g., throw a custom exception
-            logger.warn("User {} has insufficient credit ({} < {}) for decrement.", userId, user.getCredit(), amountToDecrement);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Insufficient credit.");
+            // throw new InsufficientCreditException("User " + userId + " has insufficient credit (" + user.getCredit() + ") for decrement amount " + amountToDecrement);
+            // For a more user-friendly message for the API consumer:
+            throw new InsufficientCreditException("Insufficient credit to perform this operation.");
         }
 
         user.setCredit(user.getCredit() - amountToDecrement);
